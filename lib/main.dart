@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() => runApp(MiApp()); // llama al primer widget que se ejecutará
 
@@ -55,9 +56,64 @@ class _InicioState extends State<Inicio> {
             fontSize: 20.0, // Ajusta este valor según tus necesidades
           ),
         ),
-        espacio(10.6),
-        boton()
+        espacio(1),
+        boton(),
+        espacio(1),
+        botonOperacion("Resta", resta),
+        espacio(1),
+        botonOperacion("Division", division)
       ],
+    );
+  }
+
+  void resta() {
+    setState(() {
+      if (cajaTextoVacia())
+        resultado = "Error";
+      else
+        resultado =
+            (int.parse(controlador1.text) - int.parse(controlador2.text))
+                .toString();
+    });
+  }
+
+  void division() {
+    setState(() {
+      if (cajaTextoVacia())
+        resultado = "Error";
+      else if (int.parse(controlador2.text) == 0)
+        resultado = "Error";
+      else
+        resultado =
+            (int.parse(controlador1.text) / int.parse(controlador2.text))
+                .toString();
+    });
+  }
+
+  bool cajaTextoVacia() {
+    return controlador1.text.isEmpty || controlador2.text.isEmpty;
+  }
+
+  Widget botonOperacion(String operacion, Function() funcion) {
+    return ElevatedButton(
+      onPressed: () {
+        setState(() {
+          funcion();
+        });
+      },
+      style: ButtonStyle(
+        maximumSize: MaterialStateProperty.all(Size(200, 100)),
+      ),
+      child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            const Icon(
+              Icons.add,
+              size: 10,
+            ),
+            Text(operacion)
+          ])),
     );
   }
 
@@ -92,6 +148,7 @@ class _InicioState extends State<Inicio> {
           controller: controlador,
           autofocus: true,
           keyboardType: TextInputType.number,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.send,
           // icono del botón
           autocorrect: true,
