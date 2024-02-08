@@ -47,9 +47,9 @@ class _InicioState extends State<Inicio> {
     return Column(
       children: [
         Row(children: [Text("Introducir dato "), cajaTexto(controlador1)]),
-        espacio(10.6),
+        espacio(5),
         Row(children: [Text("Introducir dato "), cajaTexto(controlador2)]),
-        espacio(10.6),
+        espacio(5),
         Text(
           "$resultado",
           style: TextStyle(
@@ -150,6 +150,10 @@ class _InicioState extends State<Inicio> {
           keyboardType: TextInputType.number,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           textInputAction: TextInputAction.send,
+          onSubmitted: (String value) {
+            // La acción a realizar cuando se presiona "Enviar" en el teclado
+            print(value);
+          },
           // icono del botón
           autocorrect: true,
           textAlign: TextAlign.end,
@@ -160,7 +164,7 @@ class _InicioState extends State<Inicio> {
           decoration: InputDecoration(
             hintText: "Introducir",
             hintStyle: TextStyle(color: Colors.green),
-            helperText: "Introducir datos",
+            // helperText: "Introducir datos",
           ),
         ));
   }
